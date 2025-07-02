@@ -1,13 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup
-import requests
-import re
-import time
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import re
+import requests
+from bs4 import BeautifulSoup
 
 HEADERS = {
     "User-Agent": (
@@ -17,6 +17,22 @@ HEADERS = {
     ),
     "Accept-Language": "en-US,en;q=0.9"
 }
+
+def find_first_amazon_product_url(keywords):
+    search_query = '+'.join(keywords.strip().split())
+    search_url = f"https://www.amazon.com/s?k={search_query}"
+
+    try:
+        response = requests.get(search_url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        result = soup.find('a', {'class': 'a-link-normal s-no-outline'})
+        if result and 'href' in result.attrs:
+            return "https://www.amazon.com" + result['href']
+        return None
+    except Exception as e:
+        print(f"[Search Error] {e}")
+        return None 
+    
 
 def clean_amazon_url(url):
     match = re.search(r"(https://www\.amazon\.com/dp/[A-Z0-9]{10})", url)
@@ -28,16 +44,25 @@ def get_amazon_price(url):
     url = clean_amazon_url(url)
     try:
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--lang=en-US")
 
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
+        print("✅ Page loaded")
+        
+        with open("page_debug.html", "w", encoding="utf-8") as f:
+            f.write(driver.page_source)
+            print("✅ HTML saved to page_debug.html")
 
-        time.sleep(3)  # let page load
+
+        # Wait for product title to appear
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.ID, "productTitle"))
+        )
 
         title = driver.find_element(By.ID, "productTitle").text.strip()
 
@@ -63,15 +88,3 @@ def get_amazon_price(url):
     except Exception as e:
         print(f"[Selenium Error] {e}")
         return None, None
-
-def find_first_amazon_product_url(keywords):
-    search_query = '+'.join(keywords.strip().split())
-    search_url = f"https://www.amazon.com/s?k={search_query}"
-
-    response = requests.get(search_url, headers=HEADERS)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    result = soup.find('a', {'class': 'a-link-normal s-no-outline'})
-    if result and 'href' in result.attrs:
-        return "https://www.amazon.com" + result['href']
-    return None
