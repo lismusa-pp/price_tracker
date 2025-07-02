@@ -4,5 +4,10 @@
       "url": "https://www.amazon.com/dp/B0C7V2T1MJ/",
       "target_price": 45
     }
-  ]
+  ],
+  "email": {
+    "sender": "your.email@gmail.com",
+    "password": "your_app_password",
+    "receiver": "receiver.email@gmail.com"
+  }
 }
