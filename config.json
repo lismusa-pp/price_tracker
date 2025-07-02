@@ -1,13 +1,13 @@
 {
-  "products": [
-    {
-      "url": "https://www.amazon.com/dp/B0C7V2T1MJ/",
-      "target_price": 45
+    "products": [
+        {
+            "url": "https://www.amazon.com/SOL-JANEIRO-Cheirosa-Hair-Fragrance/dp/B09W18N3GT/ref=sr_1_1?crid=2O4KEORNWQ3RX&dib=eyJ2IjoiMSJ9.s_wNPzeaLj6GbbqCczxAThkiN6aP2ZENnnRX3gB6ekZjZJDIYDYYELVM9IEuIy8UG-U--L8US8PRMNJUKjh-9afzIDWI69yJAYqCKLTFq88HWWt7g0cTa2INyN8G0vxam6mTIDYU39JYpINwRFJNhbyzOYd-8yUb1YxkAErHlqHyuHvIlhELV4h2uBSAkZgL7_lxndcaK8efQLT-hFGtOyPMWHDQIMGCzvuOfSRLqdplukgEDX7fEx84MSyw6OmNN7qT8q8QZJWeAYdcn93dFNBM-xs7Lbj_7PJyH4W8-48.zlzxYa-3PnX1RnMMe7DsbORcMbCpKxy4kuwdE0ZCcZc&dib_tag=se&keywords=fragrance&qid=1751417088&sprefix=fragnanc%2Caps%2C200&sr=8-1",
+            "target_price": 29.0
+        }
+    ],
+    "email": {
+        "sender": "l1smusaaa14@gmail.com\n",
+        "password": "hnqg egum tcnu uypx\n",
+        "receiver": "l1smusaaa14@gmail.com\n"
     }
-  ],
-  "email": {
-    "sender": "your.email@gmail.com",
-    "password": "your_app_password",
-    "receiver": "receiver.email@gmail.com"
-  }
 }
